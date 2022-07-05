@@ -381,8 +381,6 @@ jobs:
             cat ~/OldWorkflowID.txt
             OldWorkflowID=$(cat ~/OldWorkflowID.txt)
             echo OldWorkflowID: "${OldWorkflowID}"
-            echo $OldWorkflowID
-
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}"]]
             then
               echo "----------------Delete Confirmed--------------"
