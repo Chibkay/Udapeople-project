@@ -129,6 +129,7 @@ jobs:
             cd backend
             npm install 
             npm audit fix --audit-level=critical --force
+
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -237,7 +238,7 @@ jobs:
           command: |
             apk add --update --no-cache tar gzip nodejs npm ansible curl aws-cli
       - run:
-          name: Get backemd url
+          name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
@@ -254,7 +255,7 @@ jobs:
             npm install
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp --recursive dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
