@@ -128,8 +128,6 @@ jobs:
           command: |
             cd backend
             npm install 
-            npm install --save-dev webpack@5.73.0
-            npm update mkdirp --depth 6
             npm audit fix --audit-level=critical --force
 
   deploy-infrastructure:
@@ -184,7 +182,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update  --no-cache tar gzip ansible aws-cli
+            apk add --update  --no-cache tar gzip ansible aws-cli nodejs npm pm2 
             cat .circleci/ansible/inventory.txt
 
       - run:
@@ -316,7 +314,7 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             # curl "${API_URL}/api/status"
-            if curl -s http://google.com
+            if curl -s ${API_URL}/api/status
             then
                 return 0
             else
