@@ -135,7 +135,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: yum install -y tar gzip npm
+      - run: yum install -y tar gzip npm jq
       - run:
           name: Ensure backend infrastructure exist
           command: |
@@ -154,6 +154,7 @@ jobs:
               --tags project=udapeople
       - run:
           name: Add backend ip to ansible inventory
+          working_directory: .circleci/ansible
           command: |
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
@@ -182,7 +183,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update  --no-cache tar gzip ansible nodejs npm aws-cli 
+            apk add --update tar gzip ansible nodejs npm aws-cli 
             cat .circleci/ansible/inventory.txt
 
       - run:
@@ -190,10 +191,6 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/backend
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -237,7 +234,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar gzip nodejs npm ansible curl aws-cli
+            apk add --update tar gzip nodejs npm ansible curl aws-cli
       - run:
           name: Get backend url
           command: |
@@ -274,7 +271,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar gzip curl  openssh rsync ansible nodejs npm aws-cli
+            apk add --update tar gzip curl  openssh rsync ansible nodejs npm aws-cli
       - run:
           name: Deploy backend
           command: |
@@ -308,7 +305,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+            --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
