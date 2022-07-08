@@ -1,0 +1,12 @@
+URLO1: https://github.com/Chibkay/Udapeople-project/tree/master
+
+URL02: http://udapeople-5cd6dbb.s3-website-us-east-1.amazonaws.com
+
+URL3: dta7sjvvaqa7y.cloudfront.net
+
+URL04: http://ec2-54-211-72-189.compute-1.amazonaws.com:3030
+
+URL05: http://ec2-54-87-85-55.compute-1.amazonaws.com:9090/
+
+
+
