@@ -199,7 +199,7 @@ jobs:
           working_directory: ./backend
           command: |
             echo "insecure" >> ~/.curlrc
-            if grep -q "has been executed successfully" migration_status
+            if grep -q "has been executed successfully" migration_status.txt
             then
               echo "DB migration was successful, will update KVDB..."
               curl https://kvdb.io/B1Ct8L4ord1FeiK7SjsNvG/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
