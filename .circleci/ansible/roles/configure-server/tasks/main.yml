@@ -1,9 +1,21 @@
-- name: "upgrade packages."
+---
+- name: "update local apt repo."
   become: true
   apt:
-    upgrade: "yes"
+    update_cache: yes
 
-- name: "install dependencies."
+- name: "upgrade apt packages"
+  become: true
+  apt:
+    upgrade: yes
+
+
+- name: "remove stale dependencies"
+  become: true
+  apt:
+    autoremove: yes
+
+- name: "install dependencies [nodejs and npm]."
   become: true
   apt:
     name: ["nodejs", "npm"]
@@ -12,8 +24,4 @@
 
 - name: "install pm2"
   become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+  command: 'npm install -g pm2'
