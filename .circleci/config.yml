@@ -115,8 +115,8 @@ jobs:
             cd frontend
             npm install
             npm update mkdirp --depth 6
-            npm install --save-dev webpack
-            npm install webpack-cli -D 
+            npm install --save-dev webpack -g 
+            npm install --save-dev webpack-cli
             npm audit fix --audit-level= critical --force
 
   scan-backend:
