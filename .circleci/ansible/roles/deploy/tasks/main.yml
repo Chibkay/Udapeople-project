@@ -21,10 +21,6 @@
     state: latest
     update_cache: yes
 
-- name: "Fix vulnerabilities"
-  become: true
-  command: 'npm audit fix --force'
-
 - name: "install pm2"
   become: true
   command: 'npm install -g pm2'
