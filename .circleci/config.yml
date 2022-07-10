@@ -114,6 +114,8 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm update mkdirp --depth 6
+            npm install --save-dev webpack@5.73.0
             npm audit fix --audit-level= critical --force
 
   scan-backend:
@@ -128,8 +130,6 @@ jobs:
           command: |
             cd backend
             npm install
-            npm update mkdirp --depth 6
-            npm install --save-dev webpack@5.73.0
             npm audit fix --audit-level=critical --force
             npm audit fix --force
 
@@ -248,7 +248,9 @@ jobs:
           command: |
             cd frontend
             npm install 
-            npm install webpack webpack-cli -D -g 
+            npm update mkdirp --depth 6
+            npm install --save-dev webpack@5.73.0
+            npm install webpack-cli -D  
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
