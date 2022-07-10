@@ -303,8 +303,8 @@ jobs:
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            # curl "${API_URL}/api/status"
-            if curl -s "http://google.com" 
+            if curl -v "${API_URL}/api/status" | grep "ok"
+            # if curl -s "http://google.com" 
             then
                 return 0
             else
@@ -365,14 +365,14 @@ jobs:
       - run:
           name: Cleanup stack
           command: |
-            export OldWorkflowID=$(aws cloudformation \
-            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text)
-            echo OldWorkflowID: "${OldWorkflowID}"
-            echo "CIRCLE_WORKFLOW_ID ${CIRCLE_WORKFLOW_ID:0:7}"          
-            export "STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-            --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
-            echo Stack names: "${STACKS[@]}"   
+            echo <<pipeline.parameters.workflow_id>>
+            export OldWorkflowID=<<pipeline.parameters.workflow_id>>
+            echo OldWorkflowID: ${OldWorkflowID}
+            echo CIRCLE_WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+            export STACKS=$(aws cloudformation list-stacks \
+            --query "StackSummaries[*].StackName" \
+            --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
+            # if [[ "${OldWorkflowID}" != "${OldWorkflowID}" ]]   
             if [[ "${OldWorkflowID}" =~ "${STACKS[@]}" ]]
             then
               echo "----------------Delete Confirmed--------------"
