@@ -114,6 +114,7 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm install webpack-cli 
             npm audit fix --audit-level= critical --force
 
   scan-backend:
