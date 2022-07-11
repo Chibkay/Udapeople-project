@@ -248,7 +248,7 @@ jobs:
             cd frontend
             cat .env
             npm install
-            npm install webpack
+            npm install webpack -g
             npm i -D webpack-cli
             npm run build:prod
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
@@ -276,7 +276,7 @@ jobs:
           command: |
             cd backend
             npm install 
-            npm install typescript@latest 
+            npm install typescript@latest -g 
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
