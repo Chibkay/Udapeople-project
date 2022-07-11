@@ -247,9 +247,8 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm install --save-dev webpack@5.73.0
-            npm install webpack-cli@4.6.0
-            npm audit fix --force 
+            npm install -g webpack
+            npm i -D webpack-cli
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
