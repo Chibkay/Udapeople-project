@@ -246,10 +246,11 @@ jobs:
           name: deploy frontend objects
           command: |
             cd frontend
+            cat .env
             npm install
-            npm install -g webpack
+            npm install webpack
             npm i -D webpack-cli
-            npm run build
+            npm run build:prod
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
       - destroy-environment:
@@ -269,13 +270,13 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            apk add --update --no-cache tar gzip curl ansible nodejs npm aws-cli
+            apk add --update --no-cache tar gzip openssh curl ansible nodejs npm aws-cli
       - run: 
           name: Deploy backend
           command: |
             cd backend
             npm install 
-            npm install typescript@latest -g 
+            npm install typescript@latest 
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
@@ -349,7 +350,7 @@ jobs:
             echo $OldWorkflowID >> ~/OldWorkflowID.txt
             cat ~/OldWorkflowID.txt
           
-            aws cloudformation deploy \
+            aws cloudformation update-stack \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
             --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7} \
