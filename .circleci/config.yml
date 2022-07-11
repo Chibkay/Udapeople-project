@@ -230,13 +230,7 @@ jobs:
       - run: 
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar 
-            apk add --update --no-cache gzip
-            apk add --update --no-cache npm 
-            apk add --update --no-cache nodejs 
-            apk add --update --no-cache aws-cli 
-            apk add --update --no-cache ansible 
-            apk add --update --no-cache curl 
+            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible curl 
       - run:
           name: Get backend url
           command: |
@@ -253,6 +247,9 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm install --save-dev webpack@5.73.0
+            npm install webpack-cli@4.6.0
+            npm audit fix --force 
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
