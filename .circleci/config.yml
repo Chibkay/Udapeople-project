@@ -201,7 +201,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
       - persist_to_workspace:
           root: ~/
-           paths:
+          paths:
             - project/backend
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -259,7 +259,7 @@ jobs:
             cat .env
             npm install
             npm install webpack -g
-            npm install -g -D webpack-cli
+            npm install -D webpack-cli
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
