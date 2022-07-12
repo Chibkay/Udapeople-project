@@ -129,6 +129,8 @@ jobs:
           command: |
             cd backend
             npm install
+            npm install webpack -g
+            npm install -D webpack-cli
             npm audit fix --audit-level=critical --force
             npm audit fix --force
 
@@ -259,8 +261,6 @@ jobs:
             cd frontend
             cat .env
             npm install
-            npm install webpack -g
-            npm i -D webpack-cli
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}  --recursive
