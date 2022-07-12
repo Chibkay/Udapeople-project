@@ -210,7 +210,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:14.19.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -253,7 +253,10 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo "API_URL=http://${BACKEND_IP}:3030" >> frontend/.env
+            echo ENVIRONMENT=production >> "frontend/.env"
+            echo NODE_ENV=production >> "frontend/.env"
             cat frontend/.env
+
       - run:
           name: deploy frontend objects
           command: |
